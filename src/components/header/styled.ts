@@ -9,6 +9,10 @@ export const HeaderContainer = styled.header`
   justify-content: space-between;
   padding: 0 4rem;
 
+  em {
+    font-weight: normal;
+  }
+
   h1 {
     text-transform: uppercase;
   }
@@ -23,6 +27,7 @@ export const HeaderContainer = styled.header`
     margin: 0 2rem;
     cursor: pointer;
     text-transform: uppercase;
+    font-weight: bold;
   }
 
   a,
