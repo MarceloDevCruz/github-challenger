@@ -65,3 +65,11 @@ export const BtnSelected = styled.button<Props>`
   background-color: ${(props) => (props.selected ? '#000' : '#fff')};
   color: ${(props) => (props.selected ? '#fff' : '#000')};
 `;
+
+export const SearchList = styled.ul`
+  list-style: none;
+
+  li {
+    margin: 2rem 0;
+  }
+`;

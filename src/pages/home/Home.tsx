@@ -1,27 +1,29 @@
 import React, { useState, useEffect } from 'react';
 import { BsGithub, BsSearch } from 'react-icons/bs';
-import { Container, SearchContainer, BtnSelected } from './styled';
-import { USER_URL } from '../../services/api';
+import { Container, SearchContainer, BtnSelected, SearchList } from './styled';
+import { USER_URL, REPOSITORY_URL } from '../../services/api';
 import { ShortUser } from '../../types/user';
 import axios from 'axios';
+
+import Profile from '../../components/profile/Profile';
 
 const Home = () => {
   const [userSelected, setUserSelected] = useState(false);
   const [repoSelected, setRepoSelected] = useState(true);
-  const [user, setUser] = useState<ShortUser | null>(null);
+  const [user, setUser] = useState<ShortUser[] | null>(null);
   const [userName, setUserName] = useState('');
 
   const loadUser = async () => {
     axios
       .get(`${USER_URL}${userName}`)
       .then((res: any) => {
-        setUser(res.data);
+        setUser(res.data.items);
+        console.log(user);
       })
       .catch((err: any) => {
         console.log(err);
       });
   };
-  console.log(user);
 
   return (
     <Container>
@@ -63,6 +65,21 @@ const Home = () => {
       ) : (
         <h3>Busca por Usuário:</h3>
       )}
+      <SearchList>
+        {user &&
+          user.map((user: ShortUser) => (
+            <li key={user.id}>
+              <Profile
+                id={user.id}
+                avatar_url={user.avatar_url}
+                login={user.login}
+                location={user.location}
+                followers={user.followers}
+                following={user.following}
+              />
+            </li>
+          ))}
+      </SearchList>
     </Container>
   );
 };
