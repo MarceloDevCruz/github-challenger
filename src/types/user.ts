@@ -6,3 +6,15 @@ export type ShortUser = {
   followers: number;
   following: number;
 };
+
+export type ShortRepo = {
+  id: number;
+  name: string;
+  full_name: string;
+  login: owner;
+  description: string;
+};
+
+type owner = {
+  login: string;
+};

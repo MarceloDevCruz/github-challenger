@@ -2,23 +2,36 @@ import React, { useState, useEffect } from 'react';
 import { BsGithub, BsSearch } from 'react-icons/bs';
 import { Container, SearchContainer, BtnSelected, SearchList } from './styled';
 import { USER_URL, REPOSITORY_URL } from '../../services/api';
-import { ShortUser } from '../../types/user';
+import { ShortUser, ShortRepo } from '../../types/user';
 import axios from 'axios';
 
 import Profile from '../../components/profile/Profile';
+import Repository from '../../components/repository/Repository';
 
 const Home = () => {
   const [userSelected, setUserSelected] = useState(false);
   const [repoSelected, setRepoSelected] = useState(true);
-  const [user, setUser] = useState<ShortUser[] | null>(null);
-  const [userName, setUserName] = useState('');
+  const [data, setData] = useState<(ShortRepo[] & ShortUser[]) | null>(null);
+  const [dataName, setDataName] = useState('');
 
   const loadUser = async () => {
     axios
-      .get(`${USER_URL}${userName}`)
+      .get(`${USER_URL}${dataName}`)
       .then((res: any) => {
-        setUser(res.data.items);
-        console.log(user);
+        setData(res.data.items);
+        console.log(data);
+      })
+      .catch((err: any) => {
+        console.log(err);
+      });
+  };
+
+  const loadRepo = async () => {
+    axios
+      .get(`${REPOSITORY_URL}${dataName}`)
+      .then((res: any) => {
+        setData(res.data.items);
+        console.log(data);
       })
       .catch((err: any) => {
         console.log(err);
@@ -55,9 +68,9 @@ const Home = () => {
           <input
             type="search"
             placeholder="Buscar..."
-            onChange={(e) => setUserName(e.target.value)}
+            onChange={(e) => setDataName(e.target.value)}
           />
-          <BsSearch onClick={loadUser} />
+          <BsSearch onClick={repoSelected ? loadRepo : loadUser} />
         </SearchContainer>
       </form>
       {repoSelected ? (
@@ -66,16 +79,24 @@ const Home = () => {
         <h3>Busca por Usuário:</h3>
       )}
       <SearchList>
-        {user &&
-          user.map((user: ShortUser) => (
+        {userSelected &&
+          data &&
+          data.map((user: ShortUser) => (
             <li key={user.id}>
-              <Profile
-                id={user.id}
-                avatar_url={user.avatar_url}
-                login={user.login}
-                location={user.location}
-                followers={user.followers}
-                following={user.following}
+              <Profile avatar_url={user.avatar_url} login={user.login} />
+            </li>
+          ))}
+      </SearchList>
+      <SearchList>
+        {repoSelected &&
+          data &&
+          data.map((repository: ShortRepo) => (
+            <li key={repository.id}>
+              <Repository
+                name={repository.name}
+                full_name={repository.full_name}
+                login={repository.login}
+                description={repository.description}
               />
             </li>
           ))}

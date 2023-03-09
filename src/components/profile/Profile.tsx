@@ -3,22 +3,11 @@ import { Container } from './styled';
 import { ShortUser } from '../../types/user';
 
 interface Props {
-  id: number;
   avatar_url: string;
   login: string;
-  location: string;
-  followers: number;
-  following: number;
 }
 
-const Profile = ({
-  id,
-  avatar_url,
-  login,
-  location,
-  followers,
-  following,
-}: Props) => {
+const Profile = ({ avatar_url, login }: Props) => {
   return (
     <Container>
       <img src={avatar_url} alt={login} />
