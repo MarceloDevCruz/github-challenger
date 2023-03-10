@@ -14,6 +14,7 @@ export const Container = styled.div`
     width: 10rem;
     height: 10rem;
     border-radius: 2%;
+    cursor: pointer;
   }
 
   h2 {

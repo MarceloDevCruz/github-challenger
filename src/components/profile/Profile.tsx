@@ -2,15 +2,24 @@ import React from 'react';
 import { Container } from './styled';
 import { ShortUser } from '../../types/user';
 
+import { useNavigate } from 'react-router-dom';
+
 interface Props {
+  id: number;
   avatar_url: string;
   login: string;
 }
 
-const Profile = ({ avatar_url, login }: Props) => {
+const Profile = ({ id, avatar_url, login }: Props) => {
+  const navigate = useNavigate();
+
+  const navigateToUser = () => {
+    return navigate(`users/${login}`);
+  };
+
   return (
     <Container>
-      <img src={avatar_url} alt={login} />
+      <img onClick={navigateToUser} src={avatar_url} alt={login} />
       <h2>{login}</h2>
     </Container>
   );

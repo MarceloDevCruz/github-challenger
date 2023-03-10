@@ -5,6 +5,8 @@ import { USER_URL, REPOSITORY_URL } from '../../services/api';
 import { ShortUser, ShortRepo } from '../../types/user';
 import axios from 'axios';
 
+import Users from '../users/Users';
+import Repositories from '../repositories/Repositories';
 import Profile from '../../components/profile/Profile';
 import Repository from '../../components/repository/Repository';
 
@@ -19,7 +21,6 @@ const Home = () => {
       .get(`${USER_URL}${dataName}`)
       .then((res: any) => {
         setData(res.data.items);
-        console.log(data);
       })
       .catch((err: any) => {
         console.log(err);
@@ -31,7 +32,6 @@ const Home = () => {
       .get(`${REPOSITORY_URL}${dataName}`)
       .then((res: any) => {
         setData(res.data.items);
-        console.log(data);
       })
       .catch((err: any) => {
         console.log(err);
@@ -83,7 +83,11 @@ const Home = () => {
           data &&
           data.map((user: ShortUser) => (
             <li key={user.id}>
-              <Profile avatar_url={user.avatar_url} login={user.login} />
+              <Profile
+                id={user.id}
+                avatar_url={user.avatar_url}
+                login={user.login}
+              />
             </li>
           ))}
       </SearchList>
@@ -97,6 +101,7 @@ const Home = () => {
                 full_name={repository.full_name}
                 login={repository.login}
                 description={repository.description}
+                stargazers_count={repository.stargazers_count}
               />
             </li>
           ))}
