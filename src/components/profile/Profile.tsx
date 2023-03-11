@@ -14,7 +14,7 @@ const Profile = ({ id, avatar_url, login }: Props) => {
   const navigate = useNavigate();
 
   const navigateToUser = () => {
-    return navigate(`users/${login}`);
+    return navigate(login);
   };
 
   return (

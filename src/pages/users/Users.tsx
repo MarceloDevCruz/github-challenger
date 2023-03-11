@@ -1,12 +1,28 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 import { Container } from './styled';
 import { ShortUser } from '../../types/user';
 
-type Props = {};
+import { UserContext } from '../../context/UserContext';
+import Profile from '../../components/profile/Profile';
 
 const Users = () => {
-  return <Container>Users</Container>;
+  const contextUser = useContext(UserContext);
+
+  return (
+    <Container>
+      {contextUser.user &&
+        contextUser.user.map((user: ShortUser) => (
+          <li key={user.id}>
+            <Profile
+              id={user.id}
+              avatar_url={user.avatar_url}
+              login={user.login}
+            />
+          </li>
+        ))}
+    </Container>
+  );
 };
 
 export default Users;

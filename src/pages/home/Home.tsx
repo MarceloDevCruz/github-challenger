@@ -1,41 +1,55 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { BsGithub, BsSearch } from 'react-icons/bs';
-import { Container, SearchContainer, BtnSelected, SearchList } from './styled';
+import { Container, SearchContainer, BtnSelected } from './styled';
 import { USER_URL, REPOSITORY_URL } from '../../services/api';
-import { ShortUser, ShortRepo } from '../../types/user';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-import Users from '../users/Users';
-import Repositories from '../repositories/Repositories';
-import Profile from '../../components/profile/Profile';
-import Repository from '../../components/repository/Repository';
+// Contexts
+import { UserContext } from '../../context/UserContext';
+import { RepositoryContext } from '../../context/RepositoryContext';
+
+// Components
+import NotFound from '../../components/notFound/NotFound';
 
 const Home = () => {
+  const contextUser = useContext(UserContext);
+  const contextRepository = useContext(RepositoryContext);
+
   const [userSelected, setUserSelected] = useState(false);
   const [repoSelected, setRepoSelected] = useState(true);
-  const [data, setData] = useState<(ShortRepo[] & ShortUser[]) | null>(null);
   const [dataName, setDataName] = useState('');
+
+  const navigate = useNavigate();
 
   const loadUser = async () => {
     axios
       .get(`${USER_URL}${dataName}`)
       .then((res: any) => {
-        setData(res.data.items);
+        contextUser.setUser(res.data.items);
       })
       .catch((err: any) => {
         console.log(err);
       });
+
+    contextUser.user === null || contextUser.user.length === 0
+      ? null
+      : navigate('/users');
   };
 
   const loadRepo = async () => {
     axios
       .get(`${REPOSITORY_URL}${dataName}`)
       .then((res: any) => {
-        setData(res.data.items);
+        contextRepository.setRepo(res.data.items);
       })
       .catch((err: any) => {
         console.log(err);
       });
+
+    contextRepository.repo === null || contextRepository.repo.length === 0
+      ? null
+      : navigate('/repositories');
   };
 
   return (
@@ -74,38 +88,10 @@ const Home = () => {
         </SearchContainer>
       </form>
       {repoSelected ? (
-        <h3>Busca por Repositório:</h3>
+        <h3>Busca por Repositório</h3>
       ) : (
-        <h3>Busca por Usuário:</h3>
+        <h3>Busca por Usuário</h3>
       )}
-      <SearchList>
-        {userSelected &&
-          data &&
-          data.map((user: ShortUser) => (
-            <li key={user.id}>
-              <Profile
-                id={user.id}
-                avatar_url={user.avatar_url}
-                login={user.login}
-              />
-            </li>
-          ))}
-      </SearchList>
-      <SearchList>
-        {repoSelected &&
-          data &&
-          data.map((repository: ShortRepo) => (
-            <li key={repository.id}>
-              <Repository
-                name={repository.name}
-                full_name={repository.full_name}
-                login={repository.login}
-                description={repository.description}
-                stargazers_count={repository.stargazers_count}
-              />
-            </li>
-          ))}
-      </SearchList>
     </Container>
   );
 };
