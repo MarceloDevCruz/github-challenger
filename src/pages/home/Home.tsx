@@ -18,8 +18,6 @@ const Home = () => {
 
   const [userSelected, setUserSelected] = useState(false);
   const [repoSelected, setRepoSelected] = useState(true);
-  const [userSearch, setUserSearch] = useState(false);
-  const [repoSearch, setRepoSearch] = useState(false);
   const [dataName, setDataName] = useState('');
 
   const navigate = useNavigate();
@@ -54,52 +52,51 @@ const Home = () => {
   return (
     <Container>
       <>
-        <>
-          <BsGithub />
-          <div>
-            <BtnSelected
-              selected={repoSelected}
-              onClick={() =>
-                repoSelected
-                  ? setUserSelected(false)
-                  : (setRepoSelected(!repoSelected), setUserSelected(false))
-              }
-            >
-              Repositório
-            </BtnSelected>
-            <BtnSelected
-              selected={userSelected}
-              onClick={() =>
-                userSelected
-                  ? setRepoSelected(false)
-                  : (setUserSelected(!userSelected), setRepoSelected(false))
-              }
-            >
-              Usuário
-            </BtnSelected>
-          </div>
-          <form>
-            <SearchContainer>
-              <input
-                type="search"
-                placeholder="Buscar..."
-                onChange={(e) => setDataName(e.target.value)}
-              />
-              <BsSearch onClick={repoSelected ? loadRepo : loadUser} />
-            </SearchContainer>
-          </form>
-          {repoSelected ? (
-            <h3>Busca por Repositório</h3>
-          ) : (
-            <h3>Busca por Usuário</h3>
-          )}
-          {contextUser.user !== null && contextUser.user.length === 0 && (
-            <NotFound />
-          )}
-          {contextUser.user !== null &&
-            contextUser.user.length !== 0 &&
-            navigate('/users')}
-        </>
+        <BsGithub />
+        <div>
+          <BtnSelected
+            selected={repoSelected}
+            onClick={() =>
+              repoSelected
+                ? setUserSelected(false)
+                : (setRepoSelected(!repoSelected), setUserSelected(false))
+            }
+          >
+            Repositório
+          </BtnSelected>
+          <BtnSelected
+            selected={userSelected}
+            onClick={() =>
+              userSelected
+                ? setRepoSelected(false)
+                : (setUserSelected(!userSelected), setRepoSelected(false))
+            }
+          >
+            Usuário
+          </BtnSelected>
+        </div>
+        <form>
+          <SearchContainer>
+            <input
+              type="search"
+              placeholder="Buscar..."
+              onChange={(e) => setDataName(e.target.value)}
+            />
+            <BsSearch onClick={repoSelected ? loadRepo : loadUser} />
+          </SearchContainer>
+        </form>
+        {repoSelected ? (
+          <h3>Busca por Repositório</h3>
+        ) : (
+          <h3>Busca por Usuário</h3>
+        )}
+        {contextUser.user !== null && contextUser.user.length === 0 && (
+          <NotFound />
+        )}
+        {contextUser.user !== null &&
+          contextUser.user.length !== 0 &&
+          navigate('/users')}
+
         {contextRepository.repo !== null &&
           contextRepository.repo.length === 0 && <NotFound />}
         {contextRepository.repo !== null &&

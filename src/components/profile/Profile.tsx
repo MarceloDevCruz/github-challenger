@@ -9,7 +9,7 @@ interface Props {
   login: string;
 }
 
-const Profile = ({ id, avatar_url, login }: Props) => {
+const Profile = ({ avatar_url, login }: Props) => {
   const navigate = useNavigate();
 
   const navigateToUser = () => {

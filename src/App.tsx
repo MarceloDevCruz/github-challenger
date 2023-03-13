@@ -13,14 +13,14 @@ function App() {
   const [repo, setRepo] = useState<ShortRepo[] | null>(null);
   return (
     <>
-      <RepositoryContext.Provider value={{ repo, setRepo }}>
-        <UserContext.Provider value={{ user, setUser }}>
-          <BrowserRouter>
+      <BrowserRouter>
+        <RepositoryContext.Provider value={{ repo, setRepo }}>
+          <UserContext.Provider value={{ user, setUser }}>
             <GlobalStyled />
             <Router />
-          </BrowserRouter>
-        </UserContext.Provider>
-      </RepositoryContext.Provider>
+          </UserContext.Provider>
+        </RepositoryContext.Provider>
+      </BrowserRouter>
     </>
   );
 }

@@ -15,13 +15,7 @@ type owner = {
   login: string;
 };
 
-function Repository({
-  name,
-  full_name,
-  login,
-  description,
-  stargazers_count,
-}: Props) {
+function Repository({ name, description, stargazers_count }: Props) {
   return (
     <Container>
       <Star>
