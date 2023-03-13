@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container } from './styled';
-import { ShortUser } from '../../types/user';
 
 import { useNavigate } from 'react-router-dom';
 
