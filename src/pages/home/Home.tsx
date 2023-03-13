@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, SyntheticEvent } from 'react';
 import { BsGithub, BsSearch } from 'react-icons/bs';
 import { Container, SearchContainer, BtnSelected } from './styled';
 import { USER_URL, REPOSITORY_URL } from '../../services/api';
@@ -31,10 +31,6 @@ const Home = () => {
       .catch((err: any) => {
         console.log(err);
       });
-
-    contextUser.user === null || contextUser.user.length === 0
-      ? null
-      : navigate('/users');
   };
 
   const loadRepo = async () => {
@@ -46,10 +42,10 @@ const Home = () => {
       .catch((err: any) => {
         console.log(err);
       });
+  };
 
-    contextRepository.repo === null || contextRepository.repo.length === 0
-      ? null
-      : navigate('/repositories');
+  const handleNavigate = () => {
+    navigate('/users');
   };
 
   return (
@@ -92,6 +88,11 @@ const Home = () => {
       ) : (
         <h3>Busca por Usuário</h3>
       )}
+      {contextUser.user !== null && contextUser.user.length === 0 && (
+        <NotFound />
+      )}
+      {contextRepository.repo !== null &&
+        contextRepository.repo.length === 0 && <NotFound />}
     </Container>
   );
 };
