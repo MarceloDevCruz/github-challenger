@@ -81,6 +81,7 @@ const IndividualUser = () => {
               {repo.map((repository) => (
                 <li key={repository.id}>
                   <Repository
+                    id={repository.id}
                     name={repository.name}
                     full_name={repository.full_name}
                     login={repository.login}
