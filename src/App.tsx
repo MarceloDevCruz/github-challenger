@@ -11,6 +11,7 @@ import Router from './routes/Router';
 function App() {
   const [user, setUser] = useState<ShortUser[] | null>(null);
   const [repo, setRepo] = useState<ShortRepo[] | null>(null);
+
   return (
     <>
       <BrowserRouter>

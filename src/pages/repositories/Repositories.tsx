@@ -13,6 +13,7 @@ const Repositories = () => {
         contextRepository.repo.map((repository: ShortRepo) => (
           <li key={repository.id}>
             <Repository
+              id={repository.id}
               name={repository.name}
               full_name={repository.full_name}
               login={repository.login}
